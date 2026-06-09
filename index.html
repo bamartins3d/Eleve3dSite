@@ -2312,7 +2312,7 @@
                   >contato@eleve3d.com.br</a
                 >
               </li>
-              <li><a href="https://wa.me/554134940227">WhatsApp</a></li>
+              <li><a href="https://wa.me/554134940227">WhatsApp: (41) 3494-0227</a></li>
               <li>
                 <span style="font-size: 0.88rem; color: var(--fg2)"
                   >Curitiba, PR — Brasil</span
@@ -2502,46 +2502,24 @@
       });
 
       // FORM
-      async function submitForm(e) {
+      function submitForm(e) {
         e.preventDefault();
         const form = e.target;
-        const btn = form.querySelector(".sub-btn");
-        btn.textContent = "Enviando...";
-        btn.disabled = true;
-        try {
-          const res = await fetch("https://formspree.io/f/mpqndyqd", {
-            method: "POST",
-            headers: { Accept: "application/json" },
-            body: new FormData(form),
-          });
-          if (res.ok) {
-            btn.textContent = "Mensagem Enviada ✓";
-            btn.style.cssText =
-              "background:#1a1a1a;color:#fff;border:1px solid #333";
-            form.reset();
-            setTimeout(() => {
-              btn.textContent = "Enviar Mensagem";
-              btn.style.cssText = "";
-              btn.disabled = false;
-            }, 4000);
-          } else {
-            btn.textContent = "Erro ao enviar. Tente novamente.";
-            btn.style.cssText = "background:#5a1a1a;color:#fff";
-            setTimeout(() => {
-              btn.textContent = "Enviar Mensagem";
-              btn.style.cssText = "";
-              btn.disabled = false;
-            }, 4000);
-          }
-        } catch {
-          btn.textContent = "Erro ao enviar. Tente novamente.";
-          btn.style.cssText = "background:#5a1a1a;color:#fff";
-          setTimeout(() => {
-            btn.textContent = "Enviar Mensagem";
-            btn.style.cssText = "";
-            btn.disabled = false;
-          }, 4000);
-        }
+        const nome = form.querySelector('[name="nome"]').value.trim();
+        const telefone = form.querySelector('[name="telefone"]').value.trim();
+        const email = form.querySelector('[name="email"]').value.trim();
+        const projeto = form.querySelector('[name="projeto"]').value.trim();
+
+        const subject = encodeURIComponent("Contato via site — " + nome);
+        const body = encodeURIComponent(
+          "Nome: " + nome + "\n" +
+          "Telefone: " + (telefone || "Não informado") + "\n" +
+          "E-mail: " + email + "\n\n" +
+          "Projeto:\n" + projeto
+        );
+
+        window.location.href = "mailto:contato@eleve3d.com.br?subject=" + subject + "&body=" + body;
+        form.reset();
       }
 
       // LIGHTBOX
